@@ -24,6 +24,7 @@ except ImportError:
     logger.warning("GLiNER 未安装，请运行: pip install gliner")
 
 from .models import KeywordItem, ExtractionResult
+from .html_cleaner import clean_wechat_article
 
 
 @dataclass
@@ -326,6 +327,11 @@ class GLiNEREntityExtractor:
                 elapsed_time=0.0,
                 model=self.model_name
             )
+        
+        # 0. HTML 清洗（如果是 HTML 内容）
+        if '<' in text and '>' in text:
+            text = clean_wechat_article(text, method='auto')
+            logger.debug(f"HTML 清洗后长度: {len(text)}")
         
         # 1. 滑动窗口切分
         chunks = self._split_into_chunks(text)

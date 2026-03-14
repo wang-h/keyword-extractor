@@ -11,6 +11,7 @@ from .extractor import KeywordExtractor
 from .bert_memory import BertMemoryExtractor
 from .mlx_llm import MlxLLMExtractor, MlxLLMConfig
 from .gliner_memory import GLiNEREntityExtractor, GLiNERMemoryTracker
+from .html_cleaner import clean_wechat_article, extract_text
 from .models import ExtractionResult, ExtractorConfig
 
 __all__ = [
@@ -19,6 +20,8 @@ __all__ = [
     "MlxLLMExtractor",
     "GLiNEREntityExtractor",
     "GLiNERMemoryTracker",
+    "clean_wechat_article",
+    "extract_text",
     "ExtractionResult",
     "ExtractorConfig",
     "MlxLLMConfig",
