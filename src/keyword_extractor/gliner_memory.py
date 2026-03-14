@@ -273,29 +273,52 @@ class GLiNEREntityExtractor:
         return list(enumerate(chunks))
     
     def _get_chunk_embedding(self, text: str) -> torch.Tensor:
-        """获取 chunk 的向量表示（用于 GTM）"""
-        # 简化方案：使用 GLiNER 内部编码的均值向量，避免加载额外模型
+        """
+        获取 chunk 的向量表示（用于 GTM）
+        
+        策略：使用轻量级 embedding（加载一次，缓存复用）
+        - 首次调用时加载 sentence-transformer
+        - 后续调用直接使用缓存
+        """
         try:
-            # 使用 GLiNER 的文本编码（如果可访问）
-            # 备选：简单词向量平均
-            words = text.split()[:50]  # 取前50个词
-            if not words:
-                return torch.randn(384)
+            # 延迟加载 embedding 模型（只在需要时加载）
+            if not hasattr(self, '_embedding_model'):
+                logger.debug("Loading lightweight embedding model for GTM...")
+                from sentence_transformers import SentenceTransformer
+                # 使用轻量级模型
+                self._embedding_model = SentenceTransformer(
+                    'sentence-transformers/all-MiniLM-L6-v2',
+                    device=str(self.device)
+                )
+                self._embedding_model.eval()
             
-            # 简单的词哈希向量（可重复，速度快）
-            vec = torch.zeros(384)
-            for i, word in enumerate(words):
-                # 简单的哈希到向量
-                hash_val = hash(word) % 10000
-                vec[i % 384] += hash_val / 10000.0
+            # 编码文本
+            with torch.no_grad():
+                embedding = self._embedding_model.encode(
+                    text, 
+                    convert_to_tensor=True,
+                    show_progress_bar=False
+                )
             
-            # 归一化
-            vec = vec / len(words)
-            return vec
+            return embedding.cpu()
             
         except Exception as e:
-            logger.debug(f"Embedding error: {e}")
-            return torch.randn(384)
+            logger.debug(f"Embedding error: {e}, fallback to hash")
+            return self._hash_embedding(text)
+    
+    def _hash_embedding(self, text: str) -> torch.Tensor:
+        """哈希向量备选方案"""
+        words = text.split()[:50]
+        if not words:
+            return torch.randn(384)  # MiniLM 是 384 维
+        
+        vec = torch.zeros(384)
+        for i, word in enumerate(words):
+            hash_val = hash(word) % 10000
+            vec[i % 384] += hash_val / 10000.0
+        
+        vec = vec / len(words)
+        return vec
     
     def extract(
         self,

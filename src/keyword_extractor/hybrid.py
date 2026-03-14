@@ -47,14 +47,19 @@ class HybridEntityExtractor:
             gazetteer_weight: Gazetteer 结果权重
             gliner_weight: GLiNER 结果权重
         """
-        # 默认标签
+        # 默认标签（包含正向 + 负面标签）
         if labels is None:
             labels = [
-                "科技公司名称",
-                "AI软件产品全称",
-                "大语言模型及版本号",
-                "人名",
-                "核心技术术语"
+                # 正向标签
+                "科技公司全称",
+                "AI模型及版本号", 
+                "核心技术术语",
+                "知名人名",
+                # 负面标签（垃圾桶）- 用于过滤噪音
+                "网页CSS代码",
+                "HTML标签属性",
+                "无意义英文单词",
+                "编辑作者署名",
             ]
         
         self.gazetteer = GazetteerMatcher(gazetteer_path)
@@ -100,10 +105,21 @@ class HybridEntityExtractor:
         # 2. GLiNER 识别（泛化召回层）
         # 使用标题+正文
         full_text = f"{title}\n\n{text}" if title else text
-        gliner_result = self.gliner.extract(full_text, top_k=top_k*2)
+        gliner_result = self.gliner.extract(full_text, top_k=top_k*2, return_metadata=True)
+        
+        # 负面标签列表
+        negative_labels = {"网页CSS代码", "HTML标签属性", "无意义英文单词", "编辑作者署名"}
+        
         gliner_entities = {}
         for kw in gliner_result.keywords:
-            entity = kw.keyword.split(" (")[0]  # 去掉标签类型
+            entity = kw.keyword
+            label_type = kw.method if hasattr(kw, 'method') else ""
+            
+            # 过滤负面标签的实体
+            if label_type in negative_labels:
+                logger.debug(f"过滤负面标签实体: {entity} ({label_type})")
+                continue
+            
             gliner_entities[entity] = kw.score * self.gliner_weight
         
         # 3. 融合策略
@@ -123,7 +139,7 @@ class HybridEntityExtractor:
                 fused_scores[entity] += 0.1
         
         # 4. 后处理
-        # 4.1 过滤噪音
+        # 4.1 过滤噪音（CSS、作者名等）
         filtered = {e: s for e, s in fused_scores.items() if not self._is_noise(e)}
         
         # 4.2 归一化
