@@ -9,6 +9,14 @@ __author__ = "Hao"
 
 from .extractor import KeywordExtractor
 from .bert_memory import BertMemoryExtractor
+from .mlx_llm import MlxLLMExtractor, MlxLLMConfig
 from .models import ExtractionResult, ExtractorConfig
 
-__all__ = ["KeywordExtractor", "BertMemoryExtractor", "ExtractionResult", "ExtractorConfig"]
+__all__ = [
+    "KeywordExtractor",
+    "BertMemoryExtractor",
+    "MlxLLMExtractor",
+    "ExtractionResult",
+    "ExtractorConfig",
+    "MlxLLMConfig",
+]
