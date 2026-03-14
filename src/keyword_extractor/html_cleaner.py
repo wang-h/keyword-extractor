@@ -175,7 +175,15 @@ def clean_wechat_article(html_content: str, method: str = 'auto') -> str:
     # 第二步：CSS 噪音过滤
     text = filter_css_noise(text)
     
-    # 第三步：最终清理
+    # 第三步：终极正则绞肉机
+    # 3.1 强制抹除所有类似 "font-family: xxx;", "margin: 0px;" 的键值对残骸
+    text = re.sub(r'[a-zA-Z-]+:\s*[^;]+;', ' ', text)
+    # 3.2 强制抹除孤立的乱码英文组合（长度小于3的大写字母组合，极大概率是残骸）
+    text = re.sub(r'\b[A-Z]{1,2}\b', ' ', text)
+    # 3.3 强制抹除 CSS 类名模式（短横线连接的小写字母）
+    text = re.sub(r'\b[a-z]+-[a-z]+-[a-z]+\b', ' ', text)
+    
+    # 第四步：最终清理
     # 移除 URL
     text = re.sub(r'https?://\S+', '', text)
     # 移除 email

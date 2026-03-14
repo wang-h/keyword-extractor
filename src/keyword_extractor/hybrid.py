@@ -52,14 +52,15 @@ class HybridEntityExtractor:
             labels = [
                 # 正向标签
                 "科技公司全称",
-                "AI模型及版本号", 
+                "AI模型及版本号",
+                "硬件产品名称", 
                 "核心技术术语",
                 "知名人名",
-                # 负面标签（垃圾桶）- 用于过滤噪音
-                "网页CSS代码",
-                "HTML标签属性",
-                "无意义英文单词",
-                "编辑作者署名",
+                # 负面标签（极其明确的垃圾桶）
+                "CSS字体名称",
+                "网页布局属性",
+                "作者或编辑姓名",
+                "文章配图说明",
             ]
         
         self.gazetteer = GazetteerMatcher(gazetteer_path)
@@ -107,8 +108,8 @@ class HybridEntityExtractor:
         full_text = f"{title}\n\n{text}" if title else text
         gliner_result = self.gliner.extract(full_text, top_k=top_k*2, return_metadata=True)
         
-        # 负面标签列表
-        negative_labels = {"网页CSS代码", "HTML标签属性", "无意义英文单词", "编辑作者署名"}
+        # 负面标签列表（拥有最高优先级，一票否决）
+        negative_labels = {"CSS字体名称", "网页布局属性", "作者或编辑姓名", "文章配图说明"}
         
         gliner_entities = {}
         for kw in gliner_result.keywords:
@@ -122,11 +123,22 @@ class HybridEntityExtractor:
             
             gliner_entities[entity] = kw.score * self.gliner_weight
         
-        # 3. 融合策略
-        # 3.1 合并实体集合
-        all_entities = set(gazetteer_entities.keys()) | set(gliner_entities.keys())
+        # 3. 融合策略（一票否决权）
+        # 3.1 先过滤负面标签（一票否决）
+        # 收集被负面标签命中的实体
+        vetoed_entities = set()
+        for kw in gliner_result.keywords:
+            entity = kw.keyword
+            label_type = kw.method if hasattr(kw, 'method') else ""
+            if label_type in negative_labels:
+                vetoed_entities.add(entity.lower())
+                logger.debug(f"一票否决: {entity} ({label_type})")
         
-        # 3.2 加权融合分数
+        # 3.2 合并实体集合（排除被否决的）
+        all_entities = set(gazetteer_entities.keys()) | set(gliner_entities.keys())
+        all_entities = {e for e in all_entities if e.lower() not in vetoed_entities}
+        
+        # 3.3 加权融合分数
         fused_scores = {}
         for entity in all_entities:
             g_score = gazetteer_entities.get(entity, 0.0)
