@@ -84,12 +84,13 @@ def main():
     
     # 3. 配置训练参数
     logger.info("⚙️  配置训练参数...")
+    logger.info("   使用 CPU 训练 (避免 MPS 内存不足)")
     training_args = TrainingArguments(
         output_dir=str(output_dir),
         learning_rate=5e-5,
-        per_device_train_batch_size=4,
-        per_device_eval_batch_size=4,
-        num_train_epochs=5,  # 增加 epochs
+        per_device_train_batch_size=2,
+        per_device_eval_batch_size=2,
+        num_train_epochs=3,
         eval_strategy="epoch",
         save_strategy="epoch",
         load_best_model_at_end=True,
@@ -97,6 +98,7 @@ def main():
         do_train=True,
         do_eval=True,
         warmup_ratio=0.1,
+        use_cpu=True,  # 使用 CPU 避免 MPS 内存不足
     )
     
     # 4. 开始训练
