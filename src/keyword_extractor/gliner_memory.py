@@ -273,24 +273,30 @@ class GLiNEREntityExtractor:
     
     def _get_chunk_embedding(self, text: str) -> torch.Tensor:
         """获取 chunk 的向量表示（用于 GTM）"""
-        # 使用简单的词嵌入平均作为 fallback
-        # GLiNER 不直接暴露 tokenizer，使用简单方法
-        try:
-            # 尝试使用 transformers 的 tokenizer
+        # 使用 transformers 获取文本向量
+        # 缓存 tokenizer 和 model 避免重复加载
+        if not hasattr(self, '_st_tokenizer'):
             from transformers import AutoTokenizer, AutoModel
-            tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
-            model = AutoModel.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
+            logger.debug("Loading sentence-transformer for GTM...")
+            self._st_tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
+            self._st_model = AutoModel.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
+            self._st_model.eval()
+            self._st_model.to(self.device)
+        
+        with torch.no_grad():
+            inputs = self._st_tokenizer(
+                text, 
+                return_tensors="pt", 
+                truncation=True, 
+                max_length=512,
+                padding=True
+            ).to(self.device)
             
-            with torch.no_grad():
-                inputs = tokenizer(text, return_tensors="pt", truncation=True, max_length=512)
-                outputs = model(**inputs)
-                cls_vector = outputs.last_hidden_state[:, 0, :]
-            
-            return cls_vector.squeeze(0).cpu()
-        except Exception as e:
-            # 最简单的 fallback：使用文本长度作为 proxy（不推荐但可运行）
-            logger.debug(f"Embedding fallback: {e}")
-            return torch.randn(384)  # 随机向量，实际使用时需要修复
+            outputs = self._st_model(**inputs)
+            # 使用 [CLS] token 的向量作为句子表示
+            cls_vector = outputs.last_hidden_state[:, 0, :]
+        
+        return cls_vector.squeeze(0).cpu()
     
     def extract(
         self,
