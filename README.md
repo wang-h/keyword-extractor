@@ -6,6 +6,7 @@
 
 - 🎯 **中文优化**: 针对中文分词和词性标注优化
 - 🤖 **多模型支持**: 支持 text2vec、bge-m3、jina-embeddings 等中文优化模型
+- 🧠 **BERT + 记忆机制**: 滑动窗口编码 + 全局主题记忆(GTM) + 实体状态记忆(ESM)，适合长文本精准提取
 - ⚡ **轻量级**: 支持 Model2Vec 轻量级模型，CPU 也能快速运行
 - 🔧 **灵活配置**: 支持自定义词典、停用词、N-gram 范围等
 - 📊 **模型对比**: 内置模型对比功能，方便选择最佳模型
@@ -113,6 +114,48 @@ config = ExtractorConfig(model_name="text2vec")
 ```python
 config = ExtractorConfig(model_name="bge-m3")
 ```
+
+## BERT + 记忆机制（长文本方案）
+
+针对微信公众号长文（1000-5000字），提供 BERT + 双重记忆机制方案：
+
+```python
+from keyword_extractor import BertMemoryExtractor
+
+extractor = BertMemoryExtractor(
+    model_name="roberta-wwm",  # 或 macbert/tinybert
+    chunk_size=300,            # 滑动窗口大小
+    chunk_overlap=50,          # 窗口重叠
+    alpha=0.2,                 # 记忆更新系数
+    dynamic_alpha=True         # 动态权重（首尾段落权重更高）
+)
+
+# 处理长文本
+with open("long_article.txt") as f:
+    text = f.read()
+
+result = extractor.extract(text, top_k=10, return_metadata=True)
+
+for kw in result.keywords:
+    print(f"{kw.keyword}: {kw.score:.4f}")
+    if kw.metadata:
+        print(f"  出现次数: {kw.metadata['freq']}")
+        print(f"  语义得分: {kw.metadata['component_scores']['semantic']:.4f}")
+```
+
+### BERT-Memory vs KeyBERT
+
+| 特性 | KeyBERT | BERT-Memory |
+|------|---------|-------------|
+| 长文本支持 | 需截断（512 tokens） | ✅ 滑动窗口，完整处理 |
+| 全局理解 | ❌ 局部相似度 | ✅ GTM 全局主题记忆 |
+| 实体追踪 | ❌ 单次出现 | ✅ ESM 跨窗口实体聚合 |
+| 位置感知 | ❌ 无 | ✅ 首尾权重更高 |
+| 速度 | ⚡ 快 | 🐢 较慢（BERT 推理） |
+
+### 推荐场景
+- **KeyBERT**: 短文本、大规模批量处理、CPU 环境
+- **BERT-Memory**: 长文章、需要精准实体识别、可接受秒级延迟
 
 ## 工作原理
 

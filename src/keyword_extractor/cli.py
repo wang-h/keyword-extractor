@@ -11,6 +11,7 @@ from rich.panel import Panel
 from rich import box
 
 from .extractor import KeywordExtractor
+from .bert_memory import BertMemoryExtractor
 from .models import ExtractorConfig, PRESET_MODELS
 
 
@@ -193,6 +194,78 @@ def compare_command(
             title=f"模型: {model_key}",
             border_style="green" if result.keywords else "yellow"
         ))
+
+
+@app.command(name="bert")
+def bert_command(
+    text: Optional[str] = typer.Argument(None, help="要提取关键词的文本"),
+    file: Optional[Path] = typer.Option(
+        None, "--file", "-f", help="从文件读取文本"
+    ),
+    model: str = typer.Option(
+        "roberta-wwm", "--model", "-m", 
+        help="BERT 模型 (roberta-wwm/macbert/tinybert)"
+    ),
+    top_k: int = typer.Option(10, "--top-k", "-k", help="提取关键词数量"),
+    chunk_size: int = typer.Option(300, "--chunk-size", help="Chunk 大小"),
+    return_meta: bool = typer.Option(False, "--meta", help="显示详细元数据"),
+):
+    """使用 BERT + 记忆机制提取关键词（适合长文本）"""
+    
+    # 获取输入文本
+    if file:
+        if not file.exists():
+            console.print(f"[red]错误: 文件不存在 {file}[/]")
+            raise typer.Exit(1)
+        text = file.read_text(encoding="utf-8")
+    elif not text:
+        if sys.stdin.isatty():
+            console.print("[yellow]请输入文本 (Ctrl+D 结束):[/]")
+        text = sys.stdin.read()
+    
+    if not text or not text.strip():
+        console.print("[red]错误: 文本不能为空[/]")
+        raise typer.Exit(1)
+    
+    # 初始化提取器
+    with console.status(f"[bold green]正在加载 BERT 模型 ({model})..."):
+        try:
+            extractor = BertMemoryExtractor(
+                model_name=model,
+                chunk_size=chunk_size
+            )
+        except Exception as e:
+            console.print(f"[red]模型加载失败: {e}[/]")
+            raise typer.Exit(1)
+    
+    # 提取关键词
+    with console.status("[bold green]正在提取关键词..."):
+        result = extractor.extract(text, top_k=top_k, return_metadata=return_meta)
+    
+    # 输出结果
+    table = Table(
+        title=f"BERT-Memory 提取结果 (耗时: {result.elapsed_time:.3f}s)",
+        box=box.ROUNDED
+    )
+    table.add_column("排名", style="cyan", justify="center")
+    table.add_column("关键词", style="green")
+    table.add_column("分数", style="yellow", justify="right")
+    
+    if return_meta:
+        table.add_column("频次", style="blue", justify="right")
+        table.add_column("位置", style="magenta", justify="right")
+    
+    for i, kw in enumerate(result.keywords, 1):
+        row = [str(i), kw.keyword, f"{kw.score:.4f}"]
+        if return_meta and kw.metadata:
+            row.extend([
+                str(kw.metadata.get("freq", "-")),
+                f"{kw.metadata.get('first_pos', 0):.2f}"
+            ])
+        table.add_row(*row)
+    
+    console.print(table)
+    console.print(f"[dim]模型: {result.model} | Chunks: ~{len(text)//chunk_size}[/]")
 
 
 @app.command(name="interactive")

@@ -8,6 +8,7 @@ __version__ = "0.1.0"
 __author__ = "Hao"
 
 from .extractor import KeywordExtractor
+from .bert_memory import BertMemoryExtractor
 from .models import ExtractionResult, ExtractorConfig
 
-__all__ = ["KeywordExtractor", "ExtractionResult", "ExtractorConfig"]
+__all__ = ["KeywordExtractor", "BertMemoryExtractor", "ExtractionResult", "ExtractorConfig"]

@@ -8,6 +8,7 @@ class KeywordItem(BaseModel):
     keyword: str = Field(..., description="关键词")
     score: float = Field(..., description="相关性分数 (0-1)")
     method: str = Field(..., description="提取方法")
+    metadata: Optional[Dict[str, Any]] = Field(None, description="额外元数据")
 
 
 class ExtractionResult(BaseModel):
