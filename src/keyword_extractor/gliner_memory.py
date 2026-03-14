@@ -283,11 +283,11 @@ class GLiNEREntityExtractor:
         try:
             # 延迟加载 embedding 模型（只在需要时加载）
             if not hasattr(self, '_embedding_model'):
-                logger.debug("Loading lightweight embedding model for GTM...")
+                logger.debug("Loading BGE Chinese embedding model for GTM...")
                 from sentence_transformers import SentenceTransformer
-                # 使用轻量级模型
+                # 使用 BGE 中文优化模型（约100M，中文语义精度更高）
                 self._embedding_model = SentenceTransformer(
-                    'sentence-transformers/all-MiniLM-L6-v2',
+                    'BAAI/bge-small-zh-v1.5',
                     device=str(self.device)
                 )
                 self._embedding_model.eval()
