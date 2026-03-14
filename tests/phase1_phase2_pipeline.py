@@ -185,7 +185,7 @@ def phase2_memory_integration(articles: Dict, sample_size: int = 20):
     
     # 使用相同的 GLiNER 配置，但关注记忆机制
     extractor = GLiNEREntityExtractor(
-        model_name="gliner-chinese",
+        model_name="urchade/gliner_multi-v2.1",
         labels=["科技公司", "软件产品", "人工智能模型", "核心技术", "硬件设备", "人名"],
         chunk_size=800,
         alpha=0.2,  # GTM 更新系数
