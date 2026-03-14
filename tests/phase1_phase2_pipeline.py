@@ -86,9 +86,9 @@ def phase1_baseline_test(articles: Dict, sample_size: int = 20):
     print("="*70)
     
     # 初始化 GLiNER
-    print("\n🔄 加载 GLiNER 模型 (xianyun/gliner_chinese_large)...")
+    print("\n🔄 加载 GLiNER 模型 (urchade/gliner_multi-v2.1)...")
     extractor = GLiNEREntityExtractor(
-        model_name="gliner-chinese",
+        model_name="urchade/gliner_multi-v2.1",
         labels=[
             "科技公司",
             "软件产品", 
