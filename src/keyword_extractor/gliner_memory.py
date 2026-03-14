@@ -231,7 +231,21 @@ class GLiNEREntityExtractor:
         
         self.model_name = model_name
         self.labels = labels or self.DEFAULT_LABELS
-        self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
+        
+        # 设备选择 - 优先 MPS (Mac GPU)，其次 CUDA，最后 CPU
+        if device is None:
+            if torch.backends.mps.is_available():
+                self.device = torch.device("mps")
+                logger.info("✅ 使用 Mac GPU (MPS) 加速")
+            elif torch.cuda.is_available():
+                self.device = torch.device("cuda")
+                logger.info("✅ 使用 CUDA GPU 加速")
+            else:
+                self.device = torch.device("cpu")
+                logger.info("⚠️  使用 CPU 推理")
+        else:
+            self.device = torch.device(device)
+        
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         self.alpha = alpha
