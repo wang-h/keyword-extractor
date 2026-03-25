@@ -1,0 +1,469 @@
+{
+  "phase": "phase1",
+  "sample_size": 20,
+  "avg_precision": 0.20666666666666664,
+  "avg_recall": 0.16666666666666669,
+  "avg_f1": 0.18242424242424243,
+  "details": [
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "correct": 0,
+      "predicted_count": 1,
+      "ground_truth_count": 5,
+      "article_id": "3271041950-2652681559_2",
+      "title": "Claude考场突然「觉醒」，自行写代码偷答案！人类考试，管不住AI了",
+      "predicted": [
+        "元宇"
+      ],
+      "ground_truth": [
+        "Anthropic",
+        "Claude Opus 4.6",
+        "BrowseComp",
+        "XOR加密",
+        "GitHub"
+      ],
+      "time": 0.08698201179504395
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "correct": 0,
+      "predicted_count": 3,
+      "ground_truth_count": 5,
+      "article_id": "3271041950-2652681559_1",
+      "title": "OpenClaw 3.8继续炸场！龙虾不睡觉，全球程序员连夜赶工",
+      "predicted": [
+        "OpenClaw 3.8继续炸场",
+        "定慧",
+        "新智元报道"
+      ],
+      "ground_truth": [
+        "Telegram",
+        "openclaw backup",
+        "ACP溯源",
+        "Brave搜索",
+        "OpenClaw"
+      ],
+      "time": 0.06520223617553711
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "correct": 0,
+      "predicted_count": 0,
+      "ground_truth_count": 5,
+      "article_id": "3236757533-2247873162_1",
+      "title": "首个物理AI数据基座平台“无垠”落户浙江，专治机器人数据荒，家庭工业商业场景全覆盖",
+      "predicted": [],
+      "ground_truth": [
+        "具身智能",
+        "无问智科",
+        "地平线",
+        "EmbodiedGen",
+        "无垠"
+      ],
+      "time": 0.15956568717956543
+    },
+    {
+      "precision": 0.16666666666666666,
+      "recall": 0.2,
+      "f1": 0.1818181818181818,
+      "correct": 1,
+      "predicted_count": 6,
+      "ground_truth_count": 5,
+      "article_id": "3236757533-2247873162_2",
+      "title": "LeCun团队新论文：模仿人类智能搞AI，照猫画虎死胡同",
+      "predicted": [
+        "Yann LeCun",
+        "SAI",
+        "henry",
+        "Superhuman Adaptable Intelligence",
+        "SAI不再追求",
+        "AGI"
+      ],
+      "ground_truth": [
+        "Yann LeCun",
+        "超人类适应性智能",
+        "自我博弈",
+        "莫拉维克悖论",
+        "AlphaFold"
+      ],
+      "time": 0.14848923683166504
+    },
+    {
+      "precision": 0.2,
+      "recall": 0.2,
+      "f1": 0.20000000000000004,
+      "correct": 1,
+      "predicted_count": 5,
+      "ground_truth_count": 5,
+      "article_id": "3236757533-2247873162_3",
+      "title": "扩散模型终于学会「看题下菜碟」！根据提示词难度动态分配算力，简单题省时复杂题保画质",
+      "predicted": [
+        "扩散模型终于学会",
+        "系统2",
+        "CoTj规划出的轨迹配上最朴素的1阶求解器",
+        "CoTj团队",
+        "CoTj"
+      ],
+      "ground_truth": [
+        "Qwen-image",
+        "轨迹链",
+        "中国联通",
+        "扩散DNA",
+        "CoTj"
+      ],
+      "time": 0.1915590763092041
+    },
+    {
+      "precision": 0.3333333333333333,
+      "recall": 0.3333333333333333,
+      "f1": 0.3333333333333333,
+      "correct": 1,
+      "predicted_count": 3,
+      "ground_truth_count": 3,
+      "article_id": "3554086560-2247658333_2",
+      "title": "Gemini 账户 48 小时被盗刷 57 万，三人创业团队站在破产边缘",
+      "predicted": [
+        "Gemini 3 Pro",
+        "Gemini 账户被盗",
+        "Gemini 账户"
+      ],
+      "ground_truth": [
+        "Gemini 3 Pro",
+        "Google Cloud",
+        "API 密钥"
+      ],
+      "time": 0.20208382606506348
+    },
+    {
+      "precision": 0.25,
+      "recall": 0.2,
+      "f1": 0.22222222222222224,
+      "correct": 1,
+      "predicted_count": 4,
+      "ground_truth_count": 5,
+      "article_id": "3554086560-2247658333_1",
+      "title": "OpenAI工程师不写代码了：AI写得太快，人类检查跟不上，Agent直接包办开发",
+      "predicted": [
+        "OpenAI",
+        "Calvin French-Owen",
+        "OpenAI工程师不写代码了",
+        "基础设施"
+      ],
+      "ground_truth": [
+        "OpenAI",
+        "AGENTS.md",
+        "GPT-5",
+        "Harness Engineering",
+        "Codex"
+      ],
+      "time": 0.24303293228149414
+    },
+    {
+      "precision": 0.25,
+      "recall": 0.2,
+      "f1": 0.22222222222222224,
+      "correct": 1,
+      "predicted_count": 4,
+      "ground_truth_count": 5,
+      "article_id": "3073282833-2651020678_2",
+      "title": "第一次，人类「上传」了一个大脑，并让它在虚拟世界活了起来",
+      "predicted": [
+        "Eon Systems",
+        "张倩",
+        "AI 策略",
+        "全脑仿真"
+      ],
+      "ground_truth": [
+        "果蝇大脑",
+        "MuJoCo",
+        "NeuroMechFly",
+        "FlyWire",
+        "Eon Systems"
+      ],
+      "time": 0.1809239387512207
+    },
+    {
+      "precision": 0.2,
+      "recall": 0.2,
+      "f1": 0.20000000000000004,
+      "correct": 1,
+      "predicted_count": 5,
+      "ground_truth_count": 5,
+      "article_id": "3073282833-2651020678_3",
+      "title": "从训练到推理的「瘦身」演进：首篇高效扩散语言模型（dLLM）深度综述",
+      "predicted": [
+        "dLLM",
+        "Diffusion Language Models",
+        "自动化所",
+        "dLLMs",
+        "香港中文大学与香港大学等机构"
+      ],
+      "ground_truth": [
+        "Dream",
+        "DiffuLLaMA",
+        "香港大学",
+        "香港中文大学",
+        "自动化所"
+      ],
+      "time": 0.23140478134155273
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.4,
+      "f1": 0.4444444444444445,
+      "correct": 2,
+      "predicted_count": 4,
+      "ground_truth_count": 5,
+      "article_id": "3073282833-2651020678_1",
+      "title": "觉都不睡了！龙虾又上新：OpenClaw 3.8来袭",
+      "predicted": [
+        "Telegram",
+        "OpenClaw",
+        "openclaw",
+        "YOLO"
+      ],
+      "ground_truth": [
+        "openclaw backup",
+        "Telegram",
+        "Brave Web 搜索",
+        "OpenClaw",
+        "GPT-5.4"
+      ],
+      "time": 0.19898390769958496
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.4,
+      "f1": 0.4444444444444445,
+      "correct": 2,
+      "predicted_count": 4,
+      "ground_truth_count": 5,
+      "article_id": "3207765945-2247615317_1",
+      "title": "GPT-5.4 到底变强了多少？三大核心能力+电脑操控Codex上手实测！",
+      "predicted": [
+        "GPT-5.4",
+        "Gemini 3.1 Pro",
+        "Claude",
+        "OpenAI"
+      ],
+      "ground_truth": [
+        "Gemini 3.1 Pro",
+        "Claude Opus 4.6",
+        "Codex",
+        "data.gov",
+        "GPT-5.4"
+      ],
+      "time": 0.11113595962524414
+    },
+    {
+      "precision": 0.3333333333333333,
+      "recall": 0.2,
+      "f1": 0.25,
+      "correct": 1,
+      "predicted_count": 3,
+      "ground_truth_count": 5,
+      "article_id": "3926568365-2247626004_3",
+      "title": "最懂大模型的人也逃不过杀猪盘？API生意背后的灰产链条",
+      "predicted": [
+        "GPT-4",
+        "博阳",
+        "Gemini"
+      ],
+      "ground_truth": [
+        "OpenAI",
+        "Gemini",
+        "GLM-4",
+        "GPT-5",
+        "腾讯科技"
+      ],
+      "time": 0.12246918678283691
+    },
+    {
+      "precision": 0.4,
+      "recall": 0.4,
+      "f1": 0.4000000000000001,
+      "correct": 2,
+      "predicted_count": 5,
+      "ground_truth_count": 5,
+      "article_id": "3926568365-2247626004_2",
+      "title": "胡渊鸣 | 真正好玩的 AI 原生游戏",
+      "predicted": [
+        "NOI 2014",
+        "Meshy Game Studio",
+        "任天堂",
+        "AI 游戏机制大模型",
+        "胡渊鸣"
+      ],
+      "ground_truth": [
+        "Not a Number",
+        "岩田聪",
+        "Meshy AI",
+        "AI 游戏机制大模型",
+        "Meshy Game Studio"
+      ],
+      "time": 0.21185827255249023
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "correct": 0,
+      "predicted_count": 2,
+      "ground_truth_count": 5,
+      "article_id": "3926568365-2247626004_1",
+      "title": "人人相信AI参与了战争，人人都想给自己装个龙虾",
+      "predicted": [
+        "AI参与战争",
+        "王兆洋"
+      ],
+      "ground_truth": [
+        "AWS",
+        "LUCAS",
+        "Palantir",
+        "OpenClaw",
+        "Claude"
+      ],
+      "time": 0.09649109840393066
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.4,
+      "f1": 0.5,
+      "correct": 2,
+      "predicted_count": 3,
+      "ground_truth_count": 5,
+      "article_id": "3236757533-2247873095_2",
+      "title": "“最美PM”宋紫薇获红杉蚂蚁投资，创业方向略有调整，指向AI时尚",
+      "predicted": [
+        "宋紫薇",
+        "宋紫薇获红杉蚂蚁投资",
+        "薇光点亮"
+      ],
+      "ground_truth": [
+        "蚂蚁集团",
+        "宋紫薇",
+        "薇光点亮",
+        "红杉中国",
+        "AI护肤"
+      ],
+      "time": 0.14912676811218262
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "correct": 0,
+      "predicted_count": 1,
+      "ground_truth_count": 5,
+      "article_id": "3236757533-2247873095_3",
+      "title": "可微奖励就该直接微调！用HJB方程颠覆流匹配对齐｜NeurIPS'25",
+      "predicted": [
+        "GRPO"
+      ],
+      "ground_truth": [
+        "HJB方程",
+        "NeurIPS 2025",
+        "价值梯度",
+        "Stable Diffusion 3",
+        "VGG-Flow"
+      ],
+      "time": 0.23032689094543457
+    },
+    {
+      "precision": 0.3333333333333333,
+      "recall": 0.2,
+      "f1": 0.25,
+      "correct": 1,
+      "predicted_count": 3,
+      "ground_truth_count": 5,
+      "article_id": "3236757533-2247873095_1",
+      "title": "卡帕西开源Agent自进化训练框架，5分钟一轮实验，48h内揽星9.5k",
+      "predicted": [
+        "闻乐 克雷西",
+        "autoresearch",
+        "QbitAI"
+      ],
+      "ground_truth": [
+        "nanochat",
+        "SETI@home",
+        "val_bpb",
+        "卡帕西",
+        "autoresearch"
+      ],
+      "time": 0.10654306411743164
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "correct": 0,
+      "predicted_count": 2,
+      "ground_truth_count": 5,
+      "article_id": "3271041950-2652681466_1",
+      "title": "OpenClaw燃爆魔都！千亿赛道遇上龙虾局，来现场剥虾写代码",
+      "predicted": [
+        "YHluck",
+        "OpenClaw燃爆魔都"
+      ],
+      "ground_truth": [
+        "SE超级创业者",
+        "Agent智能体",
+        "全球开发者先锋大会",
+        "数字文娱",
+        "OpenClaw"
+      ],
+      "time": 0.06483817100524902
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "correct": 0,
+      "predicted_count": 2,
+      "ground_truth_count": 5,
+      "article_id": "3271041950-2652681466_2",
+      "title": "马斯克惊叹，首个赛博果蝇活了！多行为大脑完整上传，自主驱动数字躯壳",
+      "predicted": [
+        "马斯克惊叹",
+        "艾伦"
+      ],
+      "ground_truth": [
+        "MuJoCo",
+        "Philip Shiu",
+        "黑腹果蝇",
+        "Eon Systems",
+        "Nature"
+      ],
+      "time": 0.06438112258911133
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "correct": 0,
+      "predicted_count": 3,
+      "ground_truth_count": 5,
+      "article_id": "3271041950-2652681466_3",
+      "title": "一个模型，搞定所有音频生成任务！多项基准SOTA | ICLR'26",
+      "predicted": [
+        "新智元报道",
+        "ICLR",
+        "LRST"
+      ],
+      "ground_truth": [
+        "Gemini 2.5 Pro",
+        "Diffusion Transformer",
+        "AudioX",
+        "IF-caps",
+        "香港科技大学"
+      ],
+      "time": 0.06387734413146973
+    }
+  ]
+}
